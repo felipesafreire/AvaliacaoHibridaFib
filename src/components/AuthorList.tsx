@@ -19,7 +19,7 @@ const BookList: React.FC = () => {
     <IonList>
       {authors.map(author => {
         return (
-          <IonItem button key={author.objectId}>
+          <IonItem button key={author.objectId} href={`/authors/${author.objectId}/books`}>
             <IonLabel>{author.name}</IonLabel>
           </IonItem>
         );

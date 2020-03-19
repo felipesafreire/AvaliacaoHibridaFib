@@ -4,12 +4,18 @@ import { Review } from "../models/Review"
 import { ServiceConfig } from "./ServiceConfig"
 
 class Service {
-    getBooks = async (withTitleLike: string = ''): Promise<Book[]> => {
+    getBooks = async (withTitleLike: string = '', authorId?: string): Promise<Book[]> => {
+
+        if(authorId){
+            authorId = `AND author.objectId = '${authorId}'`;
+        }
+        const where = `title LIKE '%${withTitleLike}%' ${authorId}`
+
         const response: AxiosResponse = await Axios({
             url: ServiceConfig.dataUrl('book'),
             params: {
                 loadRelations: 'author',
-                where: `title LIKE '%${withTitleLike}%'`
+                where
             },
             method: 'get'
         })

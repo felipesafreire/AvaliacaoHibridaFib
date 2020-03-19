@@ -1,17 +1,18 @@
 import React, { useEffect, useState } from "react";
-import { IonList, IonItem, IonLabel, IonThumbnail } from "@ionic/react";
+import { IonList, IonItem, IonLabel, IonAvatar } from "@ionic/react";
 import { Book } from "../models/Book";
 import { BookService } from "../services/BookService";
 import semFoto from "../assets/imgs/sem-foto.jpg";
-import { useHistory } from "react-router";
 
-const AuthorList: React.FC = () => {
+export type BookListProps = {
+  authorId?: string
+}
+
+const AuthorList: React.FC<BookListProps> = ({ authorId }) => {
   const [books, setBooks] = useState<Book[]>([]);
 
-  const history = useHistory();
-
   const getBooks = async () => {
-    const books: Array<Book> = await BookService.getBooks();
+    const books: Array<Book> = await BookService.getBooks('', authorId);
     setBooks(books);
   };
 
@@ -28,16 +29,13 @@ const AuthorList: React.FC = () => {
             button
             key={book.objectId}>
             {}
-            <IonThumbnail slot="start">
-              <img src={book.cover ?? semFoto} />
-            </IonThumbnail>
+            <IonAvatar slot="start">
+              <img src={book.cover ?? semFoto} alt={book.title} />
+            </IonAvatar>
             <IonLabel>
               <h2>
                 <strong>{book.title}</strong>
               </h2>
-              <p>
-                <strong>Quantidade:</strong> {book.quantity}
-              </p>
               <p>
                 <strong>Autor:</strong> {book.author.name}
               </p>

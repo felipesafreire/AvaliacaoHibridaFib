@@ -33,6 +33,7 @@ const App: React.FC = () => (
         <Route path="/books" component={BookPage} exact />
         <Route path="/books/:bookId" component={BookDetailPage} exact />
         <Route path="/authors" component={AuthorPage} exact />
+        <Route path="/authors/:authorId/books" component={BookPage} exact />
         <Route path="/tabs" component={TabsPage} />
         <Route exact path="/" render={() => <Redirect to="/tabs" />} />
       </IonRouterOutlet>

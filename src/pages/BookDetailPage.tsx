@@ -14,6 +14,7 @@ import { useParams } from "react-router";
 import { BookService } from "../services/BookService";
 import { Book } from "../models/Book";
 import semFoto from "../assets/imgs/sem-foto.jpg";
+import { Review } from "../models/Review";
 
 type BookDetailParams = {
   bookId?: string;
@@ -28,11 +29,25 @@ const BookDetailPage: React.FC = () => {
   const id = params.bookId;
 
   const [book, setBook] = useState<Book>();
+  const [reviews, setReviews] = useState<string>(' - ');
 
   const getBook = async (id: string) => {
     const book = await BookService.getBook(id);
     setBook(book);
+    const reviews = await BookService.getReviews(book);
+    setQuantityReview(reviews);
   };
+
+  function setQuantityReview(reviews: Review[]){
+    if(reviews.length > 0){
+      let review = 0;
+      for(let i = 0; i < reviews.length; i++){
+          review += reviews[i].rating;
+      }
+      const reviewBook = (review / reviews.length).toFixed(0)
+      setReviews(reviewBook);
+    }
+  }
 
   useEffect(() => {
     getBook(id);
@@ -45,23 +60,26 @@ const BookDetailPage: React.FC = () => {
           <IonButtons slot="start">
             <IonBackButton defaultHref="/tabs/books" />
           </IonButtons>
-          <IonTitle>Livros</IonTitle>
+          <IonTitle>{book?.title}</IonTitle>
         </IonToolbar>
       </IonHeader>
       <IonContent>
         <IonCard>
           <IonCardContent>
             <div style={{ textAlign: "center" }}>
-              <h1>{book?.title}</h1>
+              <h1 style={{color: '#3880FF'}}>{book?.title}</h1>
               <br />
-              <img src={book?.cover ?? semFoto} width={200} />
+              <img src={book?.cover ?? semFoto} width={200} alt={book?.title} />
             </div>
             <div>
               <p>
-                <strong>Quantidade:</strong> {book?.quantity}
+                <strong>Por:</strong> {book?.author.name}
               </p>
               <p>
-                <strong>Autor:</strong> {book?.author.name}
+                <strong>Quantidade disponível:</strong> {book?.quantity}
+              </p>
+              <p>
+                <strong>Nota:</strong> {reviews}
               </p>
             </div>
           </IonCardContent>
