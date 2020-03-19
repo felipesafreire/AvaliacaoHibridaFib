@@ -26,11 +26,7 @@ const AuthorList: React.FC = () => {
           <IonItem
             href={`/books/${book.objectId}`}
             button
-            key={book.objectId}
-            // onClick={() => {
-            //   history.push();
-            // }}
-          >
+            key={book.objectId}>
             {}
             <IonThumbnail slot="start">
               <img src={book.cover ?? semFoto} />

@@ -5,7 +5,9 @@ import {
   IonTitle,
   IonToolbar,
   IonCard,
-  IonCardContent
+  IonCardContent,
+  IonButtons,
+  IonBackButton
 } from "@ionic/react";
 import React, { useState, useEffect } from "react";
 import { useParams } from "react-router";
@@ -40,6 +42,9 @@ const BookDetailPage: React.FC = () => {
     <IonPage>
       <IonHeader>
         <IonToolbar color="primary">
+          <IonButtons slot="start">
+            <IonBackButton defaultHref="/tabs/books" />
+          </IonButtons>
           <IonTitle>Livros</IonTitle>
         </IonToolbar>
       </IonHeader>
